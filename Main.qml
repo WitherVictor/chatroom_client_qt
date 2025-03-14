@@ -7,6 +7,7 @@ ApplicationWindow {
     height: 360
     visible: true
     title: qsTr("猫猫聊天室")
+    color: "lightgrey"
 
     ColumnLayout {
         anchors.centerIn: parent
@@ -45,7 +46,10 @@ ApplicationWindow {
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
             
-            Button { text: "登录" }
+            Button {
+                text: "登录"
+                onClicked: console.log("检测到登录按钮被点击")
+            }
             Button { text: "注册" }
         }
     }
