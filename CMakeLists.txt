@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
 project(chatroom_client_qt VERSION 0.1 LANGUAGES CXX)
 
