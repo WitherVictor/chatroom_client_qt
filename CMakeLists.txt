@@ -28,6 +28,8 @@ qt_add_qml_module(appchatroom_client_qt
     VERSION 1.0
     QML_FILES
         Main.qml
+        ui/Login.qml
+        ui/Register.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
