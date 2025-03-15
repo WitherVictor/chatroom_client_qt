@@ -50,6 +50,7 @@ Page {
             Button {
                 text: "注册"
                 onClicked: {
+                    console.log("注册按钮被点击，跳转到注册界面。")
                     loginPage.loader.source = "ui/Register.qml"
                 }
             }

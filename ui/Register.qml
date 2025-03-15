@@ -49,6 +49,7 @@ Page {
             Button {
                 text: "返回"
                 onClicked: {
+                    console.log("返回按钮被点击，跳转到登录界面。")
                     registerPage.loader.source = "ui/Login.qml"
                 }
             }
