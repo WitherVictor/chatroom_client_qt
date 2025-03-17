@@ -5,6 +5,7 @@
 
 #include <spdlog/spdlog.h>
 
+//  将 QML 的日志转发到全局函数的 spdlog 中调用
 inline void qml_log_handler(QtMsgType log_level, const QMessageLogContext& log_context, const QString& msg) {
     auto message = msg.toStdString();
 
