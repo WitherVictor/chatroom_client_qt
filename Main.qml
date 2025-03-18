@@ -6,12 +6,11 @@ ApplicationWindow {
     height: 360
     visible: true
     title: qsTr("猫猫聊天室")
-    color: "lightgrey"
 
     Loader {
         id: loader
         anchors.fill: parent
-        source: "ui/Login.qml"
+        source: "ui/WaitConnection.qml"
 
         onLoaded: {
             if (item.hasOwnProperty("loader")) {
