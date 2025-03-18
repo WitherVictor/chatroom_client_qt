@@ -6,8 +6,6 @@ Page {
     id: waitConnectionPage
     property var loader
 
-    signal signalConnectToServer()
-
     RowLayout {
         anchors.centerIn: parent
         spacing: 25
@@ -22,6 +20,6 @@ Page {
 
     Component.onCompleted: {
         console.log("界面加载完成，准备连接服务器。")
-        signalConnectToServer()
+        network.try_connect_to_server()
     }
 }

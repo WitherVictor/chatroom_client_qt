@@ -50,8 +50,6 @@ int main(int argc, char *argv[])
     //  将 QML 中 console.log() 打印的日志绑定到全局处理函数上
     qInstallMessageHandler(qml_log_handler);
 
-    network network_handler;
-
     //  启动 QML 应用
     QGuiApplication app(argc, argv);
 
@@ -62,8 +60,11 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("chatroom_client_qt", "Main");
+
+    network network_handler;
     engine.rootContext()->setContextProperty("network", &network_handler);
+
+    engine.loadFromModule("chatroom_client_qt", "Main");
 
     return app.exec();
 }
