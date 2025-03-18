@@ -19,8 +19,20 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
+set(PROJECT_HEADERS
+    include/login.h
+    include/network.h
+)
+
+set(PROJECT_SOURCES
+    src/login.cpp
+    src/network.cpp
+)
+
 qt_add_executable(appchatroom_client_qt
     main.cpp
+    ${PROJECT_HEADERS}
+    ${PROJECT_SOURCES}
 )
 
 qt_add_qml_module(appchatroom_client_qt
@@ -30,6 +42,15 @@ qt_add_qml_module(appchatroom_client_qt
         Main.qml
         ui/Login.qml
         ui/Register.qml
+        ui/WaitConnection.qml
+    RESOURCES
+        icon/loading-50px.gif
+)
+
+target_include_directories(appchatroom_client_qt
+    PRIVATE
+        include
+        spdlog::headers
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -43,13 +64,10 @@ set_target_properties(appchatroom_client_qt PROPERTIES
     WIN32_EXECUTABLE FALSE
 )
 
-target_include_directories(appchatroom_client_qt
-    PRIVATE spdlog::headers
-)
-
 target_link_libraries(appchatroom_client_qt
-    PRIVATE Qt6::Quick
-    PRIVATE spdlog
+    PRIVATE
+        Qt6::Quick
+        spdlog
 )
 
 include(GNUInstallDirs)
