@@ -1,6 +1,6 @@
 #include "login.h"
 
-login_handler& login_handler::get_instance() {
+login_handler& login_handler::instance() {
     static login_handler instance;
     return instance;
 }

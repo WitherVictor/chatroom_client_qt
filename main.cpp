@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
+#include "login.h"
 #include "network.h"
 
 //  将 QML 的日志转发到全局函数的 spdlog 中调用
@@ -62,7 +63,9 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     network network_handler;
+    auto& login = login_handler::instance();
     engine.rootContext()->setContextProperty("network", &network_handler);
+    engine.rootContext()->setContextProperty("login_handler", &login);
 
     engine.loadFromModule("chatroom_client_qt", "Main");
 

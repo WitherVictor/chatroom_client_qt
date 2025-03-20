@@ -13,5 +13,5 @@ public:
 signals:
     void connectSuccess();
 private:
-    QTcpSocket* m_socket_ptr;
+    std::unique_ptr<QTcpSocket> m_socket_ptr;
 };
