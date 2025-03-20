@@ -10,7 +10,7 @@ public:
     login_handler& operator=(const login_handler&) = delete;
 
     static login_handler& instance();
-    void try_login();
+    Q_INVOKABLE void try_login(const QString&, const QString&);
     void register_socket(std::unique_ptr<QTcpSocket>);
 private:
     login_handler(QObject* parent = nullptr)

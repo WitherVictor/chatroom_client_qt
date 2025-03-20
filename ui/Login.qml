@@ -5,6 +5,8 @@ import QtQuick.Layouts
 Page {
     id: loginPage
     property var loader
+    property alias username: usernameField.text
+    property alias password: passwordField.text
 
     ColumnLayout {
         anchors.centerIn: parent
@@ -29,12 +31,14 @@ Page {
             //  用户名段
             Label { text: "用户名" }
             TextField {
+                id: usernameField
                 placeholderText: "请输入您的用户名"
             }
 
             //  密码段
             Label { text: "密码" }
             TextField {
+                id: passwordField
                 echoMode: TextInput.Password
                 placeholderText: "请输入密码"
             }
@@ -45,7 +49,10 @@ Page {
             
             Button {
                 text: "登录"
-                onClicked: console.log("检测到登录按钮被点击")
+                onClicked: {
+                    console.log("尝试登录到服务器，用户名：{}，密码：{}", loginPage.username, loginPage.password)
+                    login_handler.try_login(loginPage.username, loginPage.password)
+                }
             }
             Button {
                 text: "注册"
