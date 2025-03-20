@@ -15,7 +15,26 @@ Page {
             source: "../icon/loading-50px.gif"
         }
 
-        Label { text: "正在连接到服务器..." }
+        Label {
+            id: label
+            text: "正在连接到服务器..."
+        }
+    }
+
+    Timer {
+        id: timer
+        interval: 2000
+        onTriggered: {
+            waitConnectionPage.loader.source = "ui/Login.qml"
+        }
+    }
+
+    Connections {
+        target: network
+
+        function onConnectSuccess() {
+            timer.start()
+        }
     }
 
     Component.onCompleted: {

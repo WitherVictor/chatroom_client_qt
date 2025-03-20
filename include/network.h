@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <qtmetamacros.h>
+#include <QtNetwork>
 
 class network : public QObject {
     Q_OBJECT
@@ -10,4 +10,8 @@ public:
     Q_INVOKABLE void try_connect_to_server();
 
     virtual ~network() = default;
+signals:
+    void connectSuccess();
+private:
+    QTcpSocket* m_socket_ptr;
 };
