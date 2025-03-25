@@ -63,4 +63,16 @@ Page {
             }
         }
     }
+
+    Connections {
+        target: login_handler
+
+        function onLoginSuccess() {
+            console.log("登录成功")
+        }
+
+        function onLoginFailed() {
+            console.log("登录失败")
+        }
+    }
 }
