@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QString>
 
 //  spdlog
 #include <spdlog/spdlog.h>
