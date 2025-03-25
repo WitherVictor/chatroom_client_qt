@@ -25,12 +25,14 @@ qt_standard_project_setup(REQUIRES 6.8)
 set(PROJECT_HEADERS
     include/login.h
     include/network.h
+    include/session.h
 )
 
 # 必须手动设置源文件路径供 MOC 查找
 set(PROJECT_SOURCES
     src/login.cpp
     src/network.cpp
+    src/session.cpp
 )
 
 # 将头文件和源文件添加到项目内
