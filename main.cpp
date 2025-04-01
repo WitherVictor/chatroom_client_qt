@@ -28,11 +28,11 @@ inline void qml_log_handler(QtMsgType log_level, const QMessageLogContext& log_c
             spdlog::warn(message);
             break;
         }
-        case QtFatalMsg: {
+        case QtCriticalMsg: {
             spdlog::error(message);
             break;
         }
-        case QtCriticalMsg: {
+        case QtFatalMsg: {
             spdlog::critical(message);
             break;
         }
