@@ -21,19 +21,12 @@ Page {
         }
     }
 
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: {
-            waitConnectionPage.loader.source = "ui/Login.qml"
-        }
-    }
-
     Connections {
         target: network
 
-        function onConnectSuccess() {
-            timer.start()
+        function onConnected() {
+            console.log("connected 信号已触发。")
+            waitConnectionPage.loader.source = "ui/Login.qml"
         }
     }
 

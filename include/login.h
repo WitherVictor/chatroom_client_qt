@@ -6,8 +6,6 @@
 #include <QtNetwork>
 #include <QByteArray>
 
-#include "session.h"
-
 class login_handler : public QObject {
     Q_OBJECT
 public:
@@ -25,6 +23,4 @@ signals:
 private:
     login_handler(QObject* parent = nullptr)
         : QObject{parent} {}
-
-    std::unique_ptr<session> m_session_ptr;
 };

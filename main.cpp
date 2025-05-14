@@ -63,10 +63,8 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    network network_handler;
-    auto& login = login_handler::instance();
-    engine.rootContext()->setContextProperty("network", &network_handler);
-    engine.rootContext()->setContextProperty("login_handler", &login);
+    engine.rootContext()->setContextProperty("network", &network::instance());
+    engine.rootContext()->setContextProperty("login_handler", &login_handler::instance());
 
     engine.loadFromModule("chatroom_client_qt", "Main");
 
