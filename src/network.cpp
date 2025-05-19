@@ -2,28 +2,26 @@
 
 #include <QtNetwork>
 
-#include <qobject.h>
-#include <qobjectdefs.h>
 #include <spdlog/spdlog.h>
 
 network::network(QObject* parent)
     : QObject{parent},
     m_socket_ptr{std::make_unique<QTcpSocket>()},
     m_buffer{},
-    m_is_connected{false},
+
     m_write_mutex{}
 {
     //  注册连接成功回调
     QObject::connect(m_socket_ptr.get(), &QTcpSocket::connected, [this]() {
         spdlog::info("服务器连接成功！");
-        m_is_connected = true;
+
         emit connected();
     });
 
     //  注册链接失败回调
     QObject::connect(m_socket_ptr.get(), &QTcpSocket::disconnected, [this]() {
         spdlog::error("服务器已断开连接！");
-        m_is_connected = false;
+
         emit disconnected();
     });
 
@@ -39,9 +37,6 @@ network& network::instance() {
 }
 
 void network::try_connect_to_server() {
-    if (m_is_connected)
-        return;
-
     m_socket_ptr->connectToHost("127.0.0.1", 4242);
 }
 

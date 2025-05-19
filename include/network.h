@@ -54,6 +54,5 @@ private:
     std::unique_ptr<QTcpSocket> m_socket_ptr;
     QByteArray m_buffer;
 
-    bool m_is_connected;    //  是否已建立链接
     mutable std::mutex m_write_mutex;   //  socket 写入锁
 };
