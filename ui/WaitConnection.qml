@@ -1,10 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Dialogs
 
 Page {
     id: waitConnectionPage
-    property var loader
 
     RowLayout {
         anchors.centerIn: parent
@@ -21,12 +21,31 @@ Page {
         }
     }
 
+    MessageDialog {
+        id: disconnectedDialog
+
+        text: "服务器连接已断开!"
+        buttons: MessageDialog.Ok
+
+        onAccepted: function() {
+            stackView.pop(null)
+            stackView.push("WaitConnection.qml")
+            network.try_connect_to_server()
+        }
+    }
+
     Connections {
         target: network
 
         function onConnected() {
-            console.log("connected 信号已触发。")
-            waitConnectionPage.loader.source = "ui/Login.qml"
+            console.log("QML 切换到登录界面。")
+            stackView.push("Login.qml")
+        }
+
+        function onDisconnected() {
+            console.log("返回正在连接页面。")
+
+            disconnectedDialog.open();
         }
     }
 

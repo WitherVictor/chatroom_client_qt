@@ -1,21 +1,17 @@
-import QtQuick
 import QtQuick.Controls
 
 ApplicationWindow {
+    id: root
+
     width: 480
     height: 360
     visible: true
     title: qsTr("猫猫聊天室")
 
-    Loader {
-        id: loader
+    StackView {
+        id: stackView
         anchors.fill: parent
-        source: "ui/WaitConnection.qml"
 
-        onLoaded: {
-            if (item.hasOwnProperty("loader")) {
-                item.loader = loader
-            }
-        }
+        initialItem: "ui/WaitConnection.qml"
     }
 }
