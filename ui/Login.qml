@@ -57,7 +57,7 @@ Page {
                 text: "注册"
                 onClicked: {
                     console.log("注册按钮被点击，跳转到注册界面。")
-                    stackView.push("Register.qml")
+                    stackView.push("Signup.qml")
                 }
             }
         }

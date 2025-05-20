@@ -53,12 +53,14 @@ void login_handler::process_login_request_reply(const QByteArray& data) {
 
     //  判断请求类型是否正确
     auto request_json = QJsonDocument::fromJson(data).object();
-    if (request_json["request_type"] != "login") {
-        spdlog::warn("接收的请求类型错误！实际类型：{}", request_json["request_type"].toString());
+    auto request_type = request_json["request_type"].toString().toStdString();
+    if (request_type != "login") {
+        spdlog::warn("接收的请求类型错误！实际类型：{}", request_type);
         return;
     }
 
-    if (request_json["result"] == "passed") {
+    auto request_result = request_json["result"].toString().toStdString();
+    if (request_result == "passed") {
         spdlog::info("用户登陆成功！");
         emit loginSuccess();
     } else {

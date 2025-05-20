@@ -13,7 +13,7 @@ network::network(QObject* parent)
 {
     //  注册连接成功回调
     QObject::connect(m_socket_ptr.get(), &QTcpSocket::connected, [this]() {
-        spdlog::info("服务器连接成功！");
+        spdlog::debug("服务器连接成功！");
 
         emit connected();
     });

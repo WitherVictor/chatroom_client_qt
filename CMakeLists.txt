@@ -25,12 +25,14 @@ qt_standard_project_setup(REQUIRES 6.8)
 set(PROJECT_HEADERS
     include/login.h
     include/network.h
+    include/signup.h
 )
 
 # 必须手动设置源文件路径供 MOC 查找
 set(PROJECT_SOURCES
     src/login.cpp
     src/network.cpp
+    src/signup.cpp
 )
 
 # 将头文件和源文件添加到项目内
@@ -47,7 +49,7 @@ qt_add_qml_module(appchatroom_client_qt
     QML_FILES
         Main.qml
         ui/Login.qml
-        ui/Register.qml
+        ui/Signup.qml
         ui/WaitConnection.qml
     RESOURCES
         icon/loading-50px.gif
