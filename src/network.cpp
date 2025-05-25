@@ -52,6 +52,7 @@ QByteArray network::read_raw_data() {
 qint64 network::write(QByteArray buffer) {
     //  写入时独占锁
     std::unique_lock lock{m_write_mutex};
+    buffer.push_back(network::separator);
     auto bytes_sent = m_socket_ptr->write(std::move(buffer));
     m_socket_ptr->flush();
     return bytes_sent;

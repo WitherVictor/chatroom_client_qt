@@ -23,7 +23,7 @@ void chatroom::create_chatroom() {
     //  准备字节流数据
     auto raw_data = QJsonDocument{request_json}
                                         .toJson(QJsonDocument::Compact);
-    raw_data.push_back(network::separator);
+
     spdlog::debug("准备发送创建聊天室请求: {}.", raw_data.toStdString());
 
     //  获取连接并向其发送请求

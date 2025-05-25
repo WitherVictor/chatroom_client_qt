@@ -31,6 +31,8 @@ public:
 
     template <std::invocable Func>
     qint64 write(QByteArray buffer, Func callback) {
+        buffer.push_back(network::separator);
+
         //  注册信号
         auto conn_ptr = std::make_shared<QMetaObject::Connection>();
         *conn_ptr = QObject::connect(m_socket_ptr.get(), &QTcpSocket::readyRead, [this, conn_ptr, callback]() {

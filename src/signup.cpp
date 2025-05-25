@@ -28,8 +28,6 @@ void signup::process_request(const QString& username, const QString& password) {
     auto raw_data = QJsonDocument{request_json}
                                     .toJson(QJsonDocument::Compact);
 
-    raw_data.push_back(network::separator);
-
     spdlog::debug("发起注册请求, 数据: {}", raw_data.toStdString());
     auto& net = network::instance();
     auto bytes_sent = net.write(std::move(raw_data), [this, &net]() {

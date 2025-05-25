@@ -32,8 +32,6 @@ void login_handler::try_login(const QString& username, const QString& password) 
 
     //  将请求数据转换为字节流，并在末尾插入数据分隔符。
     auto raw_data = QJsonDocument{request_json}.toJson(QJsonDocument::Compact);
-    constexpr char separator = '\x1e';
-    raw_data.push_back(separator);
 
     //  发送数据
     spdlog::debug("准备发送登录请求数据：{}", raw_data.toStdString());
