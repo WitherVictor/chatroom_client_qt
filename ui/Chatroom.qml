@@ -82,11 +82,15 @@ Page {
             // 输入区域
             RowLayout {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 60
+                Layout.preferredHeight: parent.height * 0.2
+                spacing: 10
 
                 TextField {
                     id: messageInput
+
                     Layout.fillWidth: true
+                    Layout.preferredHeight: parent.height * 0.6
+
                     placeholderText: "输入消息..."
                 }
 
