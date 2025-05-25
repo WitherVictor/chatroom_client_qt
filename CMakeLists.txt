@@ -23,6 +23,7 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 # 必须手动设置头文件路径供 MOC 查找
 set(PROJECT_HEADERS
+    include/chatroom.h
     include/login.h
     include/network.h
     include/signup.h
@@ -30,6 +31,7 @@ set(PROJECT_HEADERS
 
 # 必须手动设置源文件路径供 MOC 查找
 set(PROJECT_SOURCES
+    src/chatroom.cpp
     src/login.cpp
     src/network.cpp
     src/signup.cpp
@@ -48,9 +50,11 @@ qt_add_qml_module(appchatroom_client_qt
     VERSION 1.0
     QML_FILES
         Main.qml
+
         ui/Login.qml
         ui/Signup.qml
         ui/WaitConnection.qml
+        ui/Chatroom.qml
     RESOURCES
         icon/loading-50px.gif
 )

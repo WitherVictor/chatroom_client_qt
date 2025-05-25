@@ -11,9 +11,10 @@
 #include "login.h"
 #include "network.h"
 #include "signup.h"
+#include "chatroom.h"
 
 //  将 QML 的日志转发到全局函数的 spdlog 中调用
-inline void qml_log_handler(QtMsgType log_level, const QMessageLogContext& log_context, const QString& msg) {
+inline static void qml_log_handler(QtMsgType log_level, const QMessageLogContext& log_context, const QString& msg) {
     auto message = msg.toStdString();
 
     switch (log_level) {
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("network", &network::instance());
     engine.rootContext()->setContextProperty("signup", &signup::instance());
     engine.rootContext()->setContextProperty("login_handler", &login_handler::instance());
+    engine.rootContext()->setContextProperty("chatroom", &chatroom::instance());
 
     engine.loadFromModule("chatroom_client_qt", "Main");
 

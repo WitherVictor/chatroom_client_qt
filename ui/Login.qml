@@ -49,7 +49,7 @@ Page {
             Button {
                 text: "登录"
                 onClicked: {
-                    console.log("尝试登录到服务器，用户名：{}，密码：{}", loginPage.username, loginPage.password)
+                    console.log("尝试登录到服务器，用户名: " + loginPage.username, + ", 密码: " + loginPage.password + ".")
                     login_handler.try_login(loginPage.username, loginPage.password)
                 }
             }
@@ -68,6 +68,7 @@ Page {
 
         function onLoginSuccess() {
             console.log("登录成功")
+            stackView.push("Chatroom.qml")
         }
 
         function onLoginFailed() {
