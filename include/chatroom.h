@@ -2,6 +2,9 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QString>
+#include <qstringview.h>
+#include <qtmetamacros.h>
 
 class chatroom : public QObject {
     Q_OBJECT
@@ -15,11 +18,17 @@ public:
 
     Q_INVOKABLE void create_chatroom();
     Q_INVOKABLE QString get_id() const;
+    Q_INVOKABLE void set_username(QString);
+    Q_INVOKABLE void send_message(const QString&);
+
     void process_request(QByteArray);
+    void process_message(QByteArray);
 signals:
     void chatroomIdReady();
+    void newMessage(QString timestamp, QString username, QString message);
 private:
     chatroom() = default;
     
     QString m_id;
+    QString m_username;
 };

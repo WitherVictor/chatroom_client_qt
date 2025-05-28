@@ -47,7 +47,7 @@ public:
         return bytes_sent;
     }
 
-    inline static constexpr char separator = '\x1E';
+    static constexpr char separator = '\x1E';
 signals:
     void connected();
     void disconnected();

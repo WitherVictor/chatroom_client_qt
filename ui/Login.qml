@@ -68,6 +68,7 @@ Page {
 
         function onLoginSuccess() {
             console.log("登录成功")
+            chatroom.set_username(loginPage.username)
             stackView.push("Chatroom.qml")
         }
 

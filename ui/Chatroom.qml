@@ -4,8 +4,6 @@ import QtQuick.Layouts
 
 // ChatRoomPage.qml
 Page {
-    property string username
-
     width: Screen.width * 0.75
     height: Screen.height * 0.75
 
@@ -66,9 +64,13 @@ Page {
 
                 ListView {
                     id: messageList
-                    model: ListModel {} // 消息数据模型
+                    model: ListModel { id: listModel } // 消息数据模型
                     spacing: 8
                     verticalLayoutDirection: ListView.BottomToTop
+
+                    delegate: Text {
+                        text: `${timestamp}\n${username}: ${message}`
+                    }
                 }
             }
 
@@ -96,6 +98,12 @@ Page {
 
                 Button {
                     text: "发送"
+
+                    onClicked: {
+                        console.log("准备向服务器发送聊天消息.")
+                        chatroom.send_message(messageInput.text)
+                        messageInput.text = ""
+                    }
                 }
             }
         }
@@ -138,6 +146,16 @@ Page {
 
         function onChatroomIdReady() {
             idText.text = "当前聊天室 ID: " + chatroom.get_id() 
+        }
+
+        function onNewMessage(timestamp, username, message) {
+            listModel.append({
+                timestamp: timestamp,
+                username: username,
+                message: message
+            })
+
+            messageList.positionViewAtEnd()
         }
     }
 }
