@@ -29,6 +29,7 @@ Page {
         onAccepted: function() {
             stackView.pop(null)
             stackView.push("WaitConnection.qml")
+            animateResizeAndCenter(480, 270)
             network.try_connect_to_server()
         }
     }

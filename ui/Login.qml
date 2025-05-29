@@ -100,6 +100,7 @@ Page {
             console.log("登录成功")
             chatroom.set_username(loginPage.username)
             stackView.push("Chatroom.qml")
+            animateResizeAndCenter(1024, 576)
         }
 
         function onLoginFailed() {
