@@ -5,7 +5,10 @@ import QtQuick.Dialogs
 
 Page {
     id: registerPage
-    property var loader
+
+    //  监听回车事件
+    Keys.onReturnPressed: registerButton.clicked()
+    Keys.onEnterPressed: registerButton.clicked()
 
     ColumnLayout {
         anchors.centerIn: parent
@@ -44,10 +47,34 @@ Page {
 
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
+
+            //  用户名或密码为空弹出的提示框
+            MessageDialog {
+                id: tryRegisterDialog
+
+                //  只有一个确定按钮
+                buttons: MessageDialog.Ok
+            }
             
             Button {
+                id: registerButton
                 text: "注册"
                 onClicked: function() {
+                    //  用户名或密码为空时, 禁止注册
+                    if (usernameField.text == "") {
+                        tryRegisterDialog.text = "用户名不能为空!"
+                        tryRegisterDialog.open()
+
+                        return
+                    }
+
+                    if (passwordField.text == "") {
+                        tryRegisterDialog.text = "密码不能为空!"
+                        tryRegisterDialog.open()
+                        
+                        return
+                    }
+
                     console.debug("向后端传递登录信息.")
                     signup.process_request(usernameField.text, passwordField.text)
                 }

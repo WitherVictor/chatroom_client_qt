@@ -71,7 +71,7 @@ Page {
                     }
 
                     if (loginPage.password == "") {
-                        loginDialog.text = "不能为空!"
+                        loginDialog.text = "密码不能为空!"
                         loginDialog.open()
                         
                         return
