@@ -150,11 +150,14 @@ Page {
                 Layout.preferredHeight: parent.height * 0.2
                 spacing: 10
 
-                TextField {
+                //  输入框
+                TextArea {
                     id: messageInput
 
                     Layout.fillWidth: true
                     Layout.preferredHeight: parent.height * 0.6
+
+                    wrapMode: Text.Wrap
 
                     placeholderText: "输入消息..."
                 }
