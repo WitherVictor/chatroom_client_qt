@@ -10,9 +10,8 @@ Page {
         anchors.centerIn: parent
         spacing: 25
 
-        AnimatedImage {
-            id: loadingGif
-            source: "../icon/loading-50px.gif"
+        BusyIndicator {
+            running: true
         }
 
         Label {
