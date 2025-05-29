@@ -4,9 +4,6 @@ import QtQuick.Layouts
 
 // ChatRoomPage.qml
 Page {
-    width: Screen.width * 0.75
-    height: Screen.height * 0.75
-
     RowLayout {
         anchors.fill: parent
         spacing: 0 // 取消间距
@@ -73,7 +70,9 @@ Page {
                         anchors.right: isSender ? parent.right : undefined
                         anchors.left: isSender ? undefined : parent.left
 
-                        text: `${timestamp}\n${username}: ${message}`
+                        horizontalAlignment: isSender ? Text.AlignRight : Text.AlignLeft
+
+                        text: `${timestamp}\n${username}\n${message}`
                     }
                 }
             }
