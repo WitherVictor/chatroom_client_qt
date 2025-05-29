@@ -74,6 +74,9 @@ Page {
 
                         text: `${timestamp}\n${username}\n${message}`
                     }
+
+                    //  有新消息到达时滚动到底部
+                    onCountChanged: positionViewAtEnd()
                 }
             }
 
