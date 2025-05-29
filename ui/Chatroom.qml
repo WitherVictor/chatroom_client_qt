@@ -15,8 +15,12 @@ Page {
             color: "#f5f5f5"
 
             Column {
-                anchors.fill: parent
+                id: topColumn
                 padding: 10
+
+                anchors.fill: parent
+                anchors.margins: 15
+                anchors.top: parent.top
 
                 Text {
                     text: "当前聊天室 ID:"
@@ -44,6 +48,23 @@ Page {
                 Button {
                     text: "加入群组"
                     width: parent.width - 20
+                }
+            }
+
+            Column {
+                padding: 10
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.margins: 15
+
+                Text {
+                    text: "用户名:"
+                }
+
+                Text {
+                    text: chatroom.get_username()
                 }
             }
 
