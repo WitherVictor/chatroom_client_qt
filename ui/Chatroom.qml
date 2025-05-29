@@ -171,6 +171,11 @@ Page {
                     }
 
                     onClicked: {
+                        if (messageInput.text == "") {
+                            console.log("输入栏内容为空, 停止发送消息.")
+                            return
+                        }
+
                         console.log("准备向服务器发送聊天消息.")
                         chatroom.send_message(messageInput.text)
                         messageInput.text = ""
