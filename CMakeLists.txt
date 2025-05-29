@@ -55,8 +55,6 @@ qt_add_qml_module(appchatroom_client_qt
         ui/Signup.qml
         ui/WaitConnection.qml
         ui/Chatroom.qml
-    RESOURCES
-        icon/loading-50px.gif
 )
 
 # 为项目添加头文件路径
