@@ -36,8 +36,6 @@ Page {
                     text: "加入群组"
                     width: parent.width - 20
                 }
-
-                // 更多功能...
             }
 
             Rectangle { // 右侧分割线
@@ -64,15 +62,74 @@ Page {
                     model: ListModel { id: listModel } // 消息数据模型
                     spacing: 8
 
-                    delegate: Text {
+                    delegate: Rectangle {
+                        id: msgRect
                         property bool isSender: chatroom.get_username() == username
-
+                        
                         anchors.right: isSender ? parent.right : undefined
                         anchors.left: isSender ? undefined : parent.left
+                        width: Math.min(Math.max(
+                            usernameText.implicitWidth + 24,
+                            messageText.implicitWidth + 24,
+                            timeText.implicitWidth + 24,
+                        ), messageList.width * 0.48)
+                        
+                        color: isSender ? "#dcf8c6" : "#888888"
+                        radius: 8
+                        height: usernameText.height + messageText.height + timeText.height + 24
+                        layer.enabled: true
 
-                        horizontalAlignment: isSender ? Text.AlignRight : Text.AlignLeft
-
-                        text: `${timestamp}\n${username}\n${message}`
+                        //  用户名
+                        Text {
+                            id: usernameText
+                            anchors {
+                                top: parent.top
+                                right: msgRect.isSender ? parent.right : undefined
+                                left: msgRect.isSender ? undefined : parent.left
+                                topMargin: 8
+                                margins: 12
+                                bottomMargin: 4
+                            }
+                            width: parent.width
+                            text: username
+                            font.bold: true
+                            color: isSender ? "#075e54" : "#000"
+                            horizontalAlignment: isSender ? Text.AlignRight : Text.AlignLeft
+                        }
+                        
+                        // 消息内容
+                        Text {
+                            id: messageText
+                            anchors {
+                                top: usernameText.bottom
+                                right: msgRect.isSender ? parent.right : undefined
+                                left: msgRect.isSender ? undefined : parent.left
+                                topMargin: 4
+                                leftMargin: 12
+                                rightMargin: 12
+                                bottomMargin: 4
+                            }
+                            wrapMode: Text.Wrap
+                            text: `${message}`
+                            horizontalAlignment: msgRect.isSender ? Text.AlignRight : Text.AlignLeft
+                            color: msgRect.isSender ? "black" : "white"
+                        }
+                        
+                        // 时间戳
+                        Text {
+                            id: timeText
+                            text: timestamp
+                            anchors {
+                                top: messageText.bottom
+                                topMargin: 4
+                                right: msgRect.isSender ? parent.right : undefined
+                                left: msgRect.isSender ? undefined : parent.left
+                                margins: 12
+                                bottomMargin: 8
+                            }
+                            font.pixelSize: 10
+                            color: "#777"
+                        }
                     }
 
                     //  有新消息到达时滚动到底部
