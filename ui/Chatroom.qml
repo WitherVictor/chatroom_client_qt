@@ -145,17 +145,15 @@ Page {
             }
 
             // 输入区域
-            RowLayout {
+            Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: parent.height * 0.2
-                spacing: 10
 
                 //  输入框
                 TextArea {
                     id: messageInput
 
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: parent.height * 0.6
+                    anchors.fill: parent
 
                     wrapMode: Text.Wrap
 
@@ -164,6 +162,13 @@ Page {
 
                 Button {
                     text: "发送"
+
+                    //  按钮处于输入框右下角
+                    anchors {
+                        right: parent.right
+                        bottom: parent.bottom
+                        margins: 10
+                    }
 
                     onClicked: {
                         console.log("准备向服务器发送聊天消息.")
