@@ -69,6 +69,11 @@ Page {
                     verticalLayoutDirection: ListView.BottomToTop
 
                     delegate: Text {
+                        property bool isSender: chatroom.get_username() == username
+
+                        anchors.right: isSender ? parent.right : undefined
+                        anchors.left: isSender ? undefined : parent.left
+
                         text: `${timestamp}\n${username}: ${message}`
                     }
                 }

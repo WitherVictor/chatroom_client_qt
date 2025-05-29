@@ -60,6 +60,10 @@ void chatroom::set_username(QString username) {
     m_username = std::move(username);
 }
 
+QString chatroom::get_username() const {
+    return m_username;
+}
+
 void chatroom::send_message(const QString& message) {
     //  构建请求 json
     QJsonObject request_json;
@@ -91,12 +95,14 @@ void chatroom::process_message(QJsonObject request_json) {
 
     const auto& timestamp_count = request_json["timestamp"].toInteger();
     auto time_point = std::chrono::system_clock::time_point{
-        std::chrono::nanoseconds(timestamp_count)
+        std::chrono::floor<std::chrono::seconds>(
+            std::chrono::nanoseconds(timestamp_count)
+        )
     };
 
     spdlog::debug("当前时区: {}.", std::chrono::current_zone()->name());
     auto local_time_point = std::chrono::zoned_time("Asia/Shanghai", time_point);
-    const auto& timestamp = std::format("{:%Y-%m-%d %H:%M:%S}", local_time_point);
+    const auto& timestamp = std::format("{:%F %T}", local_time_point);
 
     const auto& username = request_json["username"].toString();
     const auto& message = request_json["message"].toString();

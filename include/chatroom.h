@@ -18,6 +18,7 @@ public:
     Q_INVOKABLE void create_chatroom();
     Q_INVOKABLE QString get_id() const;
     Q_INVOKABLE void set_username(QString);
+    Q_INVOKABLE QString get_username() const;
     Q_INVOKABLE void send_message(const QString&);
 
     void process_request(QJsonObject);
