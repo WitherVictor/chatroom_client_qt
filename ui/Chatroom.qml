@@ -66,7 +66,6 @@ Page {
                     id: messageList
                     model: ListModel { id: listModel } // 消息数据模型
                     spacing: 8
-                    verticalLayoutDirection: ListView.BottomToTop
 
                     delegate: Text {
                         property bool isSender: chatroom.get_username() == username
