@@ -168,15 +168,23 @@ Page {
                 TextArea {
                     id: messageInput
 
+                    //  布局覆盖下半部分且文字超出会回环
                     anchors.fill: parent
-
                     wrapMode: Text.Wrap
+
+                    //  监听回车消息用于快速发送聊天消息
+                    Keys.onReturnPressed: sendButton.clicked()
+                    Keys.onEnterPressed: sendButton.clicked()
 
                     placeholderText: "输入消息..."
                 }
 
                 Button {
+                    id: sendButton
                     text: "发送"
+
+                    //  焦点处于按钮
+                    focus: true
 
                     //  按钮处于输入框右下角
                     anchors {
