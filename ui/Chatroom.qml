@@ -109,6 +109,8 @@ Page {
                         // 消息内容
                         Text {
                             id: messageText
+
+                            //  锚点
                             anchors {
                                 top: usernameText.bottom
                                 right: msgRect.isSender ? parent.right : undefined
@@ -118,7 +120,11 @@ Page {
                                 rightMargin: 12
                                 bottomMargin: 4
                             }
+
+                            //  最大宽度为消息气泡的 80%, 防止内容溢出
+                            width: parent.width * 0.8
                             wrapMode: Text.Wrap
+
                             text: `${message}`
                             horizontalAlignment: msgRect.isSender ? Text.AlignRight : Text.AlignLeft
                             color: msgRect.isSender ? "black" : "white"
