@@ -15,13 +15,13 @@
 #include "network.h"
 #include "qstring_formatter.hpp"
 
-//  返回 login_handler 的单例对象
-login_handler& login_handler::instance() {
-    static login_handler instance;
+//  返回 login 的单例对象
+login& login::instance() {
+    static login instance;
     return instance;
 }
 
-void login_handler::try_login(const QString& username, const QString& password) {
+void login::try_login(const QString& username, const QString& password) {
     //  准备请求数据
     QJsonObject request_json{};
     request_json["request_type"] = "login";
@@ -36,18 +36,15 @@ void login_handler::try_login(const QString& username, const QString& password) 
     //  发送数据
     spdlog::debug("准备发送登录请求数据：{}", raw_data.toStdString());
     auto& net = network::instance();
-    auto bytes_sent = net.write(std::move(raw_data), [this, &net]() {
-        auto data = net.read_raw_data();
-        process_login_request_reply(std::move(data));
-    });
+    auto bytes_sent = net.write(std::move(raw_data));
+
     spdlog::debug("数据已发送，写入数据长度：{}", bytes_sent);
 }
 
-void login_handler::process_login_request_reply(const QByteArray& data) {
-    spdlog::debug("接收到登录请求的回应数据：{}", data.toStdString());
+void login::process_request(QJsonObject request_json) {
+    spdlog::debug("接收到登录请求的回应数据：{}",
+        QJsonDocument{request_json}.toJson(QJsonDocument::Compact).toStdString());
 
-    //  判断请求类型是否正确
-    auto request_json = QJsonDocument::fromJson(data).object();
     auto request_type = request_json["request_type"].toString().toStdString();
     if (request_type != "login") {
         spdlog::error("接收的请求类型错误！实际类型：{}", request_type);

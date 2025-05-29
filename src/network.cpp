@@ -1,15 +1,17 @@
 #include "network.h"
 
-#include <QtNetwork>
+#include <QTcpSocket>
+#include <QByteArray>
 
 #include <spdlog/spdlog.h>
 
+#include "login.h"
+#include "signup.h"
+#include "chatroom.h"
+
 network::network(QObject* parent)
     : QObject{parent},
-    m_socket_ptr{std::make_unique<QTcpSocket>()},
-    m_buffer{},
-
-    m_write_mutex{}
+    m_socket_ptr{std::make_unique<QTcpSocket>()}
 {
     //  注册连接成功回调
     QObject::connect(m_socket_ptr.get(), &QTcpSocket::connected, [this]() {
@@ -28,6 +30,9 @@ network::network(QObject* parent)
     //  数据准备被读取时通知
     QObject::connect(m_socket_ptr.get(), &QTcpSocket::readyRead, [this]() {
         m_buffer += m_socket_ptr->readAll();
+
+        auto data = read_raw_data();
+        dispatch_request(std::move(data));
     });
 }
 
@@ -56,4 +61,23 @@ qint64 network::write(QByteArray buffer) {
     auto bytes_sent = m_socket_ptr->write(std::move(buffer));
     m_socket_ptr->flush();
     return bytes_sent;
+}
+
+void network::dispatch_request(QByteArray raw_data) {
+    spdlog::debug("开始分发请求: {}", raw_data.toStdString());
+
+    auto json_data = QJsonDocument::fromJson(raw_data).object();
+    const auto& request_type = json_data["request_type"].toString().toStdString();
+
+    if (request_type == "login") {
+        login::instance().process_request(std::move(json_data));
+    } else if (request_type == "register") {
+        signup::instance().process_request(std::move(json_data));
+    } else if (request_type == "create_chatroom") {
+        chatroom::instance().process_request(std::move(json_data));
+    } else if (request_type == "message") {
+        chatroom::instance().process_message(std::move(json_data));
+    } else {
+        spdlog::error("未知请求类型, 实际类型: {}", request_type);
+    }
 }

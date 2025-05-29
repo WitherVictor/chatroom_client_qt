@@ -6,21 +6,21 @@
 #include <QtNetwork>
 #include <QByteArray>
 
-class login_handler : public QObject {
+class login : public QObject {
     Q_OBJECT
 public:
-    login_handler(const login_handler&) = delete;
-    login_handler& operator=(const login_handler&) = delete;
+    login(const login&) = delete;
+    login& operator=(const login&) = delete;
 
-    static login_handler& instance();
+    static login& instance();
     Q_INVOKABLE void try_login(const QString&, const QString&);
     void register_socket(std::unique_ptr<QTcpSocket>);
 public slots:
-    void process_login_request_reply(const QByteArray&);
+    void process_request(QJsonObject);
 signals:
     void loginSuccess();
     void loginFailed();
 private:
-    login_handler(QObject* parent = nullptr)
+    login(QObject* parent = nullptr)
         : QObject{parent} {}
 };

@@ -6,12 +6,13 @@
 
 #include <concepts>
 #include <mutex>
+#include <qstringview.h>
 
 class network : public QObject {
     Q_OBJECT
 public:
     explicit network(QObject* parent = nullptr);
-    virtual ~network() = default;
+    ~network() override = default;
 
     //  单例禁用复制构造函数
     network(const network&) = delete;
@@ -28,24 +29,8 @@ public:
 
     //  写入数据与返回数据
     qint64 write(QByteArray);
-
-    template <std::invocable Func>
-    qint64 write(QByteArray buffer, Func callback) {
-        buffer.push_back(network::separator);
-
-        //  注册信号
-        auto conn_ptr = std::make_shared<QMetaObject::Connection>();
-        *conn_ptr = QObject::connect(m_socket_ptr.get(), &QTcpSocket::readyRead, [this, conn_ptr, callback]() {
-                        callback();
-                        QObject::disconnect(*conn_ptr);
-                    });
-
-        //  写入时独占锁
-        std::unique_lock lock{m_write_mutex};
-        auto bytes_sent = m_socket_ptr->write(std::move(buffer));
-        m_socket_ptr->flush();
-        return bytes_sent;
-    }
+    
+    static void dispatch_request(QByteArray);
 
     static constexpr char separator = '\x1E';
 signals:

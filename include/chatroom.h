@@ -1,10 +1,9 @@
 #pragma once
 
 #include <QObject>
-#include <QByteArray>
 #include <QString>
-#include <qstringview.h>
-#include <qtmetamacros.h>
+#include <QByteArray>
+#include <QJsonObject>
 
 class chatroom : public QObject {
     Q_OBJECT
@@ -21,8 +20,8 @@ public:
     Q_INVOKABLE void set_username(QString);
     Q_INVOKABLE void send_message(const QString&);
 
-    void process_request(QByteArray);
-    void process_message(QByteArray);
+    void process_request(QJsonObject);
+    void process_message(QJsonObject);
 signals:
     void chatroomIdReady();
     void newMessage(QString timestamp, QString username, QString message);

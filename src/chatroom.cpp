@@ -1,12 +1,15 @@
 #include "chatroom.h"
 
+//  标准库
+#include <chrono>
+
 //  Qt
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDateTime>
 
 //  第三方依赖
-#include <chrono>
+#include <qjsondocument.h>
 #include <spdlog/spdlog.h>
 
 //  项目内
@@ -30,18 +33,14 @@ void chatroom::create_chatroom() {
 
     //  获取连接并向其发送请求
     auto& net = network::instance();
-    auto bytes_sent = net.write(std::move(raw_data), [this, &net]() {
-        auto data = net.read_raw_data();
-        process_request(data);
-    });
+    auto bytes_sent = net.write(std::move(raw_data));
 
     spdlog::debug("请求已发送, 数据长度: {}.", bytes_sent);
 }
 
-void chatroom::process_request(QByteArray raw_data) {
-    spdlog::debug("接收到创建聊天室请求返回数据: {}", raw_data.toStdString());
-
-    auto request_json = QJsonDocument::fromJson(raw_data).object();
+void chatroom::process_request(QJsonObject request_json) {
+    spdlog::debug("接收到创建聊天室请求返回数据: {}",
+        QJsonDocument{request_json}.toJson(QJsonDocument::Compact).toStdString());
 
     auto request_type = request_json["request_type"].toString().toStdString();
     if (request_type != "create_chatroom") {
@@ -75,24 +74,22 @@ void chatroom::send_message(const QString& message) {
 
 
     auto& net = network::instance();
-    auto bytes_sent = net.write(std::move(raw_data), [this, &net]() {
-        auto data = net.read_raw_data();
-        process_message(data);
-    });
+    auto bytes_sent = net.write(std::move(raw_data));
 
     spdlog::debug("聊天消息请求已发送, 数据长度: {}.", bytes_sent);
 }
 
-void chatroom::process_message(QByteArray raw_data) {
-    const auto& json_data = QJsonDocument::fromJson(raw_data).object();
+void chatroom::process_message(QJsonObject request_json) {
+    spdlog::debug("正在处理聊天消息: {}",
+        QJsonDocument{request_json}.toJson(QJsonDocument::Compact).toStdString());
 
-    const auto& request_type = json_data["request_type"].toString().toStdString();
+    const auto& request_type = request_json["request_type"].toString().toStdString();
     if (request_type != "message") {
         spdlog::error("处理消息请求类型错误! 实际请求类型: {}.", request_type);
         return;
     }
 
-    const auto& timestamp_count = json_data["timestamp"].toInteger();
+    const auto& timestamp_count = request_json["timestamp"].toInteger();
     auto time_point = std::chrono::system_clock::time_point{
         std::chrono::nanoseconds(timestamp_count)
     };
@@ -101,7 +98,7 @@ void chatroom::process_message(QByteArray raw_data) {
     auto local_time_point = std::chrono::zoned_time("Asia/Shanghai", time_point);
     const auto& timestamp = std::format("{:%Y-%m-%d %H:%M:%S}", local_time_point);
 
-    const auto& username = json_data["username"].toString();
-    const auto& message = json_data["message"].toString();
+    const auto& username = request_json["username"].toString();
+    const auto& message = request_json["message"].toString();
     emit newMessage(QString::fromStdString(timestamp), username, message);
 }

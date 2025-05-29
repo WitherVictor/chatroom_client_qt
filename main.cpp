@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("network", &network::instance());
     engine.rootContext()->setContextProperty("signup", &signup::instance());
-    engine.rootContext()->setContextProperty("login_handler", &login_handler::instance());
+    engine.rootContext()->setContextProperty("login_handler", &login::instance());
     engine.rootContext()->setContextProperty("chatroom", &chatroom::instance());
 
     engine.loadFromModule("chatroom_client_qt", "Main");

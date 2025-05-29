@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include <QString>
-#include <QByteArray>
+#include <QJsonObject>
 
 class signup : public QObject {
     Q_OBJECT
@@ -16,7 +16,7 @@ public:
     ~signup() override = default;
 
     Q_INVOKABLE void process_request(const QString&, const QString&);
-    void process_reply(QByteArray);
+    void process_request(QJsonObject);
 
     static signup& instance();
 signals:
