@@ -19,8 +19,17 @@ Page {
                 padding: 10
 
                 Text {
+                    text: "当前聊天室 ID:"
+                }
+
+                TextEdit {
                     id: idText
-                    text: "当前聊天室 ID: 无"
+                    text: "N/A"
+
+                    wrapMode: Text.Wrap
+                    width: parent.width * 0.95
+                    selectByMouse: true
+                    readOnly: true
                 }
 
                 Button {
@@ -221,7 +230,7 @@ Page {
         target: chatroom
 
         function onChatroomIdReady() {
-            idText.text = "当前聊天室 ID: " + chatroom.get_id() 
+            idText.text = chatroom.get_id() 
         }
 
         function onNewMessage(timestamp, username, message) {
