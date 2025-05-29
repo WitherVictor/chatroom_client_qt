@@ -77,7 +77,7 @@ Page {
                         return
                     }
 
-                    console.log("尝试登录到服务器，用户名: " + loginPage.username, + ", 密码: " + loginPage.password + ".")
+                    console.log(`尝试登录到服务器，用户名: ${loginPage.username}, 密码: ${loginPage.password}.`)
                     login_handler.try_login(loginPage.username, loginPage.password)
 
                     focus: true
