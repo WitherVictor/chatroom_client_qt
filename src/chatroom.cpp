@@ -102,7 +102,10 @@ void chatroom::process_message(QJsonObject request_json) {
 
     spdlog::debug("当前时区: {}.", std::chrono::current_zone()->name());
     auto local_time_point = std::chrono::zoned_time("Asia/Shanghai", time_point);
-    const auto& timestamp = std::format("{:%F %T}", local_time_point);
+    auto full_timestamp = std::format("{:%F %T}", local_time_point);
+    auto timestamp = full_timestamp.substr(
+        0, full_timestamp.find('.')
+    );
 
     const auto& username = request_json["username"].toString();
     const auto& message = request_json["message"].toString();
