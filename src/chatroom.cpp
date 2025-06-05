@@ -10,6 +10,8 @@
 
 //  第三方依赖
 #include <qjsondocument.h>
+#include <qjsonobject.h>
+#include <qobject.h>
 #include <spdlog/spdlog.h>
 
 //  项目内
@@ -110,4 +112,37 @@ void chatroom::process_message(QJsonObject request_json) {
     const auto& username = request_json["username"].toString();
     const auto& message = request_json["message"].toString();
     emit newMessage(QString::fromStdString(timestamp), username, message);
+}
+
+void chatroom::join_chatroom(const QString& chatroom_id) {
+    QJsonObject request_json;
+    request_json["request_type"] = "join_chatroom";
+
+    request_json["uuid"] = chatroom_id;
+
+    //  准备字节流数据
+    auto raw_data = QJsonDocument{request_json}
+                                        .toJson(QJsonDocument::Compact);
+
+    spdlog::debug("准备发送加入聊天室请求: {}.", raw_data.toStdString());
+
+    //  获取连接并向其发送请求
+    auto& net = network::instance();
+    auto bytes_sent = net.write(std::move(raw_data));
+
+    spdlog::debug("请求已发送, 数据长度: {}.", bytes_sent);
+}
+
+void chatroom::join_reply(QJsonObject json_data) {
+    spdlog::debug("正在处理加入回应请求: {}",
+        QJsonDocument{json_data}.toJson(QJsonDocument::Compact).toStdString());
+
+    auto join_result = json_data["result"].toString();
+    if (join_result == "success") {
+        m_id = json_data["uuid"].toString();
+        emit joinSuccess(m_id);
+    } else if (join_result == "failed") {
+        auto message = json_data["reason"].toString();
+        emit joinFailed(message);
+    }
 }

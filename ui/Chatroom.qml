@@ -48,6 +48,8 @@ Page {
                 Button {
                     text: "加入群组"
                     width: parent.width - 20
+
+                    onClicked: joinDialog.open()
                 }
             }
 
@@ -261,6 +263,47 @@ Page {
         }
     }
 
+    Dialog {
+        id: joinDialog
+        title: "加入聊天室"
+        
+        anchors.centerIn: parent
+        
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        ColumnLayout {
+            Label {
+                text: "请输入聊天室 ID:"
+            }
+
+            TextField {
+                id: roomIdInput
+                Layout.fillWidth: true
+                placeholderText: "聊天室ID"
+                selectByMouse: true
+            }
+        }
+
+        onAccepted: {
+            if (roomIdInput.text != "") {
+                console.log("将加入聊天室的 ID 转发给后端: " + roomIdInput.text)
+                chatroom.join_chatroom(roomIdInput.text)
+                roomIdInput.text = ""
+            }
+        }
+    }
+
+    Dialog {
+        id: joinFailedDialog
+
+        Label {
+            id: failedText
+            text: "加入聊天室失败!"
+        }
+
+        standardButtons: Dialog.Ok
+    }
+
     Connections {
         target: chatroom
 
@@ -276,6 +319,16 @@ Page {
             })
 
             messageList.positionViewAtEnd()
+        }
+
+        function onJoinSuccess(chatroom_id) {
+            idText.text = chatroom_id
+            joinDialog.close()
+        }
+
+        function onJoinFailed(reason) {
+            failedText.text = "加入服务器失败! 原因:" + reason
+            joinDialog.open()
         }
     }
 }
