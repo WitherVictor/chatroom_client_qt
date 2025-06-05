@@ -140,9 +140,17 @@ void chatroom::join_reply(QJsonObject json_data) {
     auto join_result = json_data["result"].toString();
     if (join_result == "success") {
         m_id = json_data["uuid"].toString();
+
         emit joinSuccess(m_id);
     } else if (join_result == "failed") {
         auto message = json_data["reason"].toString();
         emit joinFailed(message);
     }
+}
+
+void chatroom::update_usercount(QJsonObject json_data) {
+    spdlog::debug("准备更新聊天室用户数");
+
+    auto user_count = json_data["user_count"].toInteger();
+    emit updateUserCount(user_count);
 }

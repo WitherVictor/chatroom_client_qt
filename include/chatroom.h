@@ -5,7 +5,8 @@
 #include <QByteArray>
 #include <QJsonObject>
 #include <qjsonobject.h>
-#include <qobject.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
 
 class chatroom : public QObject {
     Q_OBJECT
@@ -24,6 +25,7 @@ public:
     Q_INVOKABLE void send_message(const QString&);
     Q_INVOKABLE void join_chatroom(const QString&);
 
+    void update_usercount(QJsonObject);
     void process_request(QJsonObject);
     void process_message(QJsonObject);
     void join_reply(QJsonObject);
@@ -32,6 +34,7 @@ signals:
     void newMessage(QString timestamp, QString username, QString message);
     void joinSuccess(QString);
     void joinFailed(QString);
+    void updateUserCount(qint64);
 private:
     chatroom() = default;
     

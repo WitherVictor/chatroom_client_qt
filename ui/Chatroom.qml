@@ -240,7 +240,8 @@ Page {
                 anchors.fill: parent
 
                 Label {
-                    text: "在线用户 (" + "TESTCOUNT" + ")"
+                    id: userCountLabel
+                    text: "在线人数: N/A"
                     padding: 10
                 }
 
@@ -308,7 +309,8 @@ Page {
         target: chatroom
 
         function onChatroomIdReady() {
-            idText.text = chatroom.get_id() 
+            idText.text = chatroom.get_id()
+            userCountLabel.text = "在线人数: 1"
         }
 
         function onNewMessage(timestamp, username, message) {
@@ -321,7 +323,7 @@ Page {
             messageList.positionViewAtEnd()
         }
 
-        function onJoinSuccess(chatroom_id) {
+        function onJoinSuccess(chatroom_id, user_count) {
             idText.text = chatroom_id
             joinDialog.close()
         }
@@ -329,6 +331,10 @@ Page {
         function onJoinFailed(reason) {
             failedText.text = "加入服务器失败! 原因:" + reason
             joinDialog.open()
+        }
+
+        function onUpdateUserCount(usercount) {
+            userCountLabel.text = "在线人数: " + usercount
         }
     }
 }

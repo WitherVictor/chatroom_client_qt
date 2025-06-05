@@ -79,6 +79,8 @@ void network::dispatch_request(QByteArray raw_data) {
         chatroom::instance().process_message(std::move(json_data));
     } else if (request_type == "join_chatroom") {
         chatroom::instance().join_reply(std::move(json_data));
+    } else if (request_type == "update_usercount") {
+        chatroom::instance().update_usercount(std::move(json_data));
     } else {
         spdlog::error("未知请求类型, 实际类型: {}", request_type);
     }
