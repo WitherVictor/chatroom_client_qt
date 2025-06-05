@@ -19,7 +19,7 @@ public slots:
     void process_request(QJsonObject);
 signals:
     void loginSuccess();
-    void loginFailed();
+    void loginFailed(QString);
 private:
     login(QObject* parent = nullptr)
         : QObject{parent} {}

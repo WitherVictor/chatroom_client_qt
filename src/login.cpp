@@ -56,7 +56,8 @@ void login::process_request(QJsonObject request_json) {
         spdlog::debug("用户登陆成功！");
         emit loginSuccess();
     } else {
-        spdlog::debug("用户登录失败！原因：{}", request_json["reason"].toString());
-        emit loginFailed();
+        auto error_message = request_json["reason"].toString();
+        spdlog::debug("用户登录失败！原因：{}", error_message);
+        emit loginFailed(error_message);
     }
 }

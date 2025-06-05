@@ -54,6 +54,7 @@ Page {
             //  用户名或密码为空弹出的提示框
             MessageDialog {
                 id: loginDialog
+                title: "错误!"
 
                 //  只有一个确定按钮
                 buttons: MessageDialog.Ok
@@ -103,8 +104,10 @@ Page {
             animateResizeAndCenter(1024, 576)
         }
 
-        function onLoginFailed() {
-            console.log("登录失败")
+        function onLoginFailed(errorMessage) {
+            console.log("登录失败");
+            loginDialog.text = errorMessage
+            loginDialog.open()
         }
     }
 }
