@@ -294,15 +294,14 @@ Page {
         }
     }
 
-    Dialog {
-        id: joinFailedDialog
+    Popup {
+        id: joinFailedPopup
+        anchors.centerIn: parent
 
         Label {
             id: failedText
             text: "加入聊天室失败!"
         }
-
-        standardButtons: Dialog.Ok
     }
 
     Connections {
@@ -329,8 +328,8 @@ Page {
         }
 
         function onJoinFailed(reason) {
-            failedText.text = "加入服务器失败! 原因:" + reason
-            joinDialog.open()
+            failedText.text = "加入服务器失败! 原因: " + reason
+            joinFailedPopup.open()
         }
 
         function onUpdateUserCount(usercount) {
